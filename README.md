@@ -1,13 +1,13 @@
-# IAX
-
-IAX, or Informed Adversarial Examples, is a library created to 
+# iax 
+ 
+`iax` [ˈaːjɑks], or Informed Adversarial Examples, is a library created to simplify the search of adversarial examples within a masked area of an image in a black-box scenario. The library is model agnostic, i.e. it can be used with any predictive model which implements a `predict` method.
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Install `iax` directly from github.
 
 ```bash
-pip install iax
+pip install https://github.com/trz-maier/iax.git
 ```
 
 ## Usage
@@ -25,10 +25,12 @@ space.search(iterations=30, w=0.8, c1=0.3, c2=0.6, c3=0.9)
 
 ```
 
+## Project
+This repository is part of an MSc thesis titled *"Informed Adversarial Attacks with Explainable AI and Metaheuristics in Medical Imaging"* submitted for the award of MSc in Data Science at Heriot-Watt University.
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
