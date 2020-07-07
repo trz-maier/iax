@@ -29,12 +29,11 @@ def box_out_mask(mask: np.array, pixel_expand: int = 0) -> np.array:
     r_min, r_max = np.where(rows)[0][[0, -1]]
     c_min, c_max = np.where(cols)[0][[0, -1]]
 
+    # expand box by the number of pixels provided in each direction where possible
     r_min = max(0, r_min - pixel_expand)
     c_min = max(0, c_min - pixel_expand)
     r_max = min(mask.shape[0], r_max + pixel_expand)
     c_max = min(mask.shape[1], c_max + pixel_expand)
-
-    print(r_min, r_max, c_min, c_max)
 
     out = mask.copy()
     out[r_min:r_max + 1, c_min:c_max + 1] = True

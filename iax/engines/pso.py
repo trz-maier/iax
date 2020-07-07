@@ -132,7 +132,8 @@ class PSO(Engine):
         self._shape = masked.shape
         self._space = Space(particle_list)
 
-    def search(self, iterations: int, w: float, c1: float, c2: float, c3: float, max_distance: int = np.inf):
+    def search(self, iterations: int, w: float, c1: float, c2: float, c3: float,
+               terminate: bool = False, max_distance: int = np.inf):
 
         start = time.time()
 
@@ -213,6 +214,10 @@ class PSO(Engine):
             self._space.move_particles(w, c1, c2, c3)
             index += 1
             print_progress(iteration, index)
+
+            # if adversarial example found terminate while loop
+            if terminate and found > 0:
+                break
 
         self.__status = "Completed search in %s" % utilities.format_seconds(int(time.time() - start))
         print_progress(iteration, index)

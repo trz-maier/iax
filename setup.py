@@ -6,7 +6,7 @@ setuptools.setup(
         description="iax",
         license="none",
         url="none",
-        version="0.219",
+        version="0.221",
         author="Bartosz Schatton",
         author_email="b.schatton@gmail.com",
         packages=setuptools.find_packages(),
