@@ -4,9 +4,9 @@ from iax.inferfaces import DistanceFunction
 
 
 class EuclideanDistance(DistanceFunction):
-    """
-    TODO: Euclidean Distance
-    """
+    def __init__(self):
+        super().__init__("Squared Euclidean Distance")
+
     @staticmethod
     def evaluate(x: np.array, y: np.array) -> float:
         return dist.sqeuclidean(x.flatten(), y.flatten())

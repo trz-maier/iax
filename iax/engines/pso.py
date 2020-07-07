@@ -93,12 +93,21 @@ class PSO(Engine):
         self._cost_function = cost_function
         self._distance_function = EuclideanDistance()
 
-        self.out = []
-        self.status = ""
+        self._out = []
+        self.__status = ""
+        super().__init__("Adversarial Particle Swarm Optimisation")
 
     @property
     def input(self):
         return self._x
+
+    @property
+    def max_distance(self):
+        return self._max_distance
+
+    @property
+    def output(self):
+        return self._out
 
     def initialize(self, x: Input, classifier):
 
@@ -134,7 +143,7 @@ class PSO(Engine):
             clear_output(wait=True)
             n = number_of_particles
             print("Iteration : %s/%s %s\nStatus    : %s\nBest      : %s\nFound     : %s"
-                  % (i, iterations, utilities.progress_bar(idx, n * 3 + 1), self.status,
+                  % (i, iterations, utilities.progress_bar(idx, n * 3 + 1), self.__status,
                      self._space.global_best_value, found))
 
         found = 0
@@ -160,7 +169,7 @@ class PSO(Engine):
 
                 d = {'value': candidate, 'adversarial': adversarial, 'distance': distance,
                      'confidence': confidence, 'iteration': iteration}
-                self.out.append(d)
+                self._out.append(d)
 
                 if adversarial and distance < self._max_distance:
                     found += 1
@@ -171,12 +180,12 @@ class PSO(Engine):
                     p.best_value = candidate_fitness
                     p.best_position = p.position
 
-                self.status = "Searching at distance %s" % int(distance)
+                self.__status = "Searching at distance %s" % int(distance)
                 index += 1
                 print_progress(iteration, index)
 
             # update local best
-            self.status = "Updating local best"
+            self.__status = "Updating local best"
             for p in self._space.particles:
                 for n in p.neighbors:
                     if n.best_value < p.best_local_value:
@@ -190,7 +199,7 @@ class PSO(Engine):
                 index += 1
 
             # update global best
-            self.status = "Updating global best"
+            self.__status = "Updating global best"
             for p in self._space.particles:
                 if self._space.global_best_value > p.best_value:
                     self._space.global_best_value = p.best_value
@@ -199,17 +208,17 @@ class PSO(Engine):
                 index += 1
                 print_progress(iteration, index)
 
-            self.status = "Moving particles"
+            self.__status = "Moving particles"
             print_progress(iteration, index)
             self._space.move_particles(w, c1, c2, c3)
             index += 1
             print_progress(iteration, index)
 
-        self.status = "Completed search in %s" % utilities.format_seconds(int(time.time() - start))
+        self.__status = "Completed search in %s" % utilities.format_seconds(int(time.time() - start))
         print_progress(iteration, index)
 
     def get_adversarial_examples(self, sort_by: str = None):
-        ax = self.out.copy()
+        ax = self.output.copy()
         if sort_by:
             ax.sort(key=lambda x: x[sort_by], reverse=False)
         return list(filter(lambda x: x['adversarial'] and x['distance'] < self._max_distance, ax))
@@ -217,21 +226,21 @@ class PSO(Engine):
     def plot(self):
 
         plt.figure(figsize=[15, 7])
-        x1 = [[x['distance'], x['confidence']] for x in filter(lambda x: not x['adversarial'], self.out)]
-        x2 = [[x['distance'], x['confidence']] for x in filter(lambda x: x['adversarial'], self.out)]
+        x1 = [[x['distance'], x['confidence']] for x in filter(lambda x: not x['adversarial'], self.output)]
+        x2 = [[x['distance'], x['confidence']] for x in filter(lambda x: x['adversarial'], self.output)]
         plt.scatter([x[0] for x in x1], [x[1] for x in x1], s=2, alpha=0.5, label='non-adversarial')
         plt.scatter([x[0] for x in x2], [x[1] for x in x2], s=2, alpha=0.5, c='red', label='adversarial')
-        plt.vlines(self._max_distance, 0, 1, linewidth=0.5, label='max distance')
+        plt.vlines(self.max_distance, 0, 1, linewidth=0.5, label='max distance')
         plt.xlabel('distance')
         plt.ylabel('confidence')
         plt.legend()
 
         plt.figure(figsize=[15, 7])
-        x1 = [x['distance'] if not x['adversarial'] else None for x in self.out]
-        x2 = [x['distance'] if x['adversarial'] else None for x in self.out]
+        x1 = [x['distance'] if not x['adversarial'] else None for x in self.output]
+        x2 = [x['distance'] if x['adversarial'] else None for x in self.output]
         plt.scatter(range(len(x1)), x1, s=2, alpha=0.5, label='non-adversarial')
         plt.scatter(range(len(x2)), x2, s=2, alpha=0.5, c='red', label='adversarial')
-        plt.hlines(self._max_distance, 0, len(x1), linewidth=0.5, label='max distance')
+        plt.hlines(self.max_distance, 0, len(x1), linewidth=0.5, label='max distance')
         plt.xlabel('query')
         plt.ylabel('distance')
         plt.legend()

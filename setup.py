@@ -6,7 +6,7 @@ setuptools.setup(
         description="iax",
         license="none",
         url="none",
-        version="0.217",
+        version="0.219",
         author="Bartosz Schatton",
         author_email="b.schatton@gmail.com",
         packages=setuptools.find_packages(),
@@ -15,3 +15,4 @@ setuptools.setup(
     )
 
 shutil.rmtree('build')
+
