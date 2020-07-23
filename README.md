@@ -4,7 +4,7 @@
 
 ## Installation
 
-Install `iax` directly from github.
+Install `iax` directly from github
 
 ```bash
 pip install https://github.com/trz-maier/iax.git
@@ -12,12 +12,12 @@ pip install https://github.com/trz-maier/iax.git
 
 <br>
 
-If the above fails I recommend you clone the repository to your local directory 
+If the above fails I recommend that you clone the repository to your local directory using
 
 ```bash
 git clone https://github.com/trz-maier/iax
 ```
-and install it into your local environment
+and install it into your local environment with
 ```bash
 python iax\setup.py bdist_wheel
 ```
@@ -28,7 +28,7 @@ python iax\setup.py bdist_wheel
 import iax
 
 # define iax objects
-image = iax.Image(input_array=img, mask=mask, label=3)
+image = iax.Image(input_array=image, mask=mask, label=3)
 engine = iax.engines.PSO(number_of_particles=[15, 15, 15], bounds=[0, 255])
 space = iax.Space(image, engine, model.predict)
 
