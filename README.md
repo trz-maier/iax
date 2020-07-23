@@ -10,7 +10,8 @@ Install `iax` directly from github.
 pip install https://github.com/trz-maier/iax.git
 ```
 
-If this fails I recommend you clone the repository to your local directory 
+
+If the above fails I recommend you clone the repository to your local directory 
 
 ```bash
 git clone https://github.com/trz-maier/iax
