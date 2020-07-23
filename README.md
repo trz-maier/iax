@@ -10,6 +10,16 @@ Install `iax` directly from github.
 pip install https://github.com/trz-maier/iax.git
 ```
 
+If this fails I recommend you clone the repository to your local directory 
+
+```bash
+git clone https://github.com/trz-maier/iax
+```
+and install it into your local environment
+```bash
+python iax\setup.py bdist_wheel
+```
+
 ## Usage
 
 ```python
